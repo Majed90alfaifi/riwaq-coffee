@@ -12,7 +12,9 @@ A bilingual (Arabic / English) specialty-coffee storefront with a full admin pan
 - Full Arabic (RTL) and English (LTR) UI with a language toggle
 - Product catalog with variants (weight × grind), live stock and pricing
 - Cart and server-side quote calculation (integer halala math — no floating-point rounding errors)
-- Guest checkout with a private receipt token for order lookup and cancellation
+- Guest checkout in four clear steps: bag → delivery details → **sandbox payment** → confirmation
+- Simulated payment gateway (success or failure), clearly labelled; no card data collected
+- "My orders" page listing orders placed from this browser (private receipt tokens, no account needed)
 - Traditional Sadu-pattern artwork and Arabic typography (IBM Plex Sans Arabic, Reem Kufi)
 
 **Admin panel** (`/#/admin`)
@@ -80,18 +82,29 @@ pnpm install
 
 # 2. Create local env file
 cp .env.example .dev.vars
-#   CATALOG_SEED=demo           → seeds a fictional coffee catalog
-#   ADMIN_EMAIL=you@example.com → the account allowed into /#/admin
+#   CATALOG_SEED=demo            → seeds a fictional coffee catalog on first request
+#   ADMIN_EMAIL=seedy@sites.test → the local mock sign-in account, so /#/admin works locally
 
-# 3. Run in development
+# 3. Create the local database (safe to re-run; `pnpm db:reset` wipes it and starts fresh)
+pnpm db:setup
+
+# 4. Run in development → http://localhost:5173
 pnpm dev
-
-# Or build and run the Worker locally
-pnpm build
-pnpm start
 ```
 
-For a fresh local database, apply the migration in `drizzle/` once with Wrangler's local D1 command against `dist/server/wrangler.json`. See [docs/RUNBOOK.md](docs/RUNBOOK.md) for full details.
+> No pnpm? Use `npm i -g pnpm`, or run the scripts directly: `node scripts/setup-local-db.mjs` and `node scripts/run-framework.mjs dev`.
+
+### Demo walkthrough (≈2 minutes)
+
+1. **Home** → pick a coffee, or use **ساعدني أختار** (three-question taste quiz).
+2. **Product** → choose weight and grind → **أضف إلى السلة**.
+3. **Bag** → change options/quantity; a free-shipping progress bar shows how far you are from 180 SAR.
+4. **Delivery details** → click **تعبئة بيانات تجريبية** to fill test data → continue.
+5. **Sandbox payment** → pick a method (display only) → **إتمام الدفع التجريبي** for success, or **محاكاة فشل الدفع** to see the failure + retry path. No card data is requested and nothing is charged.
+6. **Confirmation** → order number, items and totals; the order also appears under **طلباتي**.
+7. **Admin** (footer → دخول الإدارة) → sign in locally, see the order, edit stock/prices, view the audit log.
+
+See [docs/RUNBOOK.md](docs/RUNBOOK.md) for full details.
 
 ---
 
@@ -103,7 +116,7 @@ pnpm typecheck   # tsc --noEmit
 pnpm lint
 ```
 
-Latest run: **19 / 19 passing** — see [docs/test-results.txt](docs/test-results.txt).
+Latest run: **21 / 21 passing** — see [docs/test-results.txt](docs/test-results.txt).
 
 Covers quote math, overselling prevention, idempotency, reservation expiry, stale-edit rejection, payload limits, unauthorized access, refunds, and backup/restore consistency.
 

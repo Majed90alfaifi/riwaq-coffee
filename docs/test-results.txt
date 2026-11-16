@@ -1,27 +1,29 @@
-✔ SEC-01/REL-03: route injection and malformed encoding return safe routes (1.598652ms)
-✔ REL-01/02: corrupt, removed and invalid stored cart recover safely (6.550425ms)
-✔ CART-01/03: invalid quantities rejected, prices are integer halalas (3.207821ms)
-✔ CART-02: merge identical options and aggregate stock across grind variants (4.22039ms)
-✔ CAT-01/02/03: selected weight controls price, availability and sorting (3.050273ms)
-✔ Server ignores forged client prices and prevents idempotent order replay (10.712827ms)
-✔ Atomic reservation prevents overselling; failed transaction leaves no partial order (5.933625ms)
-✔ Database trigger rechecks inventory at commit, including competing stale quotes (3.288944ms)
-✔ Sandbox payment success, failure, cancellation, refund and duplicate events (14.319621ms)
-✔ Expired reservations release inventory once (3.304988ms)
-✔ Admin access denied, cross-origin writes denied, provider routes fail closed (8.237001ms)
-✔ Admin edits optimistic version; invalid stock/price and stale edits rejected (5.232257ms)
-✔ Order receipt requires matching secret token (4.261741ms)
-✔ Backup restoration preserves orders and stock (6.222541ms)
-✔ Guest cancellation is token-scoped and releases reservation once (12.387435ms)
-✔ Oversized/malformed payloads and unauthenticated sandbox events rejected (5.021658ms)
-✔ Expired pending order cannot become paid (3.161511ms)
-✔ Admin creates and hides a product, with audit history (4.706162ms)
-✔ Protected snapshot export restores consistent order and inventory without double reservation (13.692103ms)
-ℹ tests 19
+✔ SEC-01/REL-03: route injection and malformed encoding return safe routes (4.4705ms)
+✔ REL-01/02: corrupt, removed and invalid stored cart recover safely (11.6644ms)
+✔ CART-01/03: invalid quantities rejected, prices are integer halalas (8.0338ms)
+✔ CART-02: merge identical options and aggregate stock across grind variants (9.593ms)
+✔ CAT-01/02/03: selected weight controls price, availability and sorting (12.8345ms)
+✔ Server ignores forged client prices and prevents idempotent order replay (23.3338ms)
+✔ Atomic reservation prevents overselling; failed transaction leaves no partial order (14.6189ms)
+✔ Database trigger rechecks inventory at commit, including competing stale quotes (11.942ms)
+✔ Sandbox payment success, failure, cancellation, refund and duplicate events (26.6057ms)
+✔ Expired reservations release inventory once (11.9994ms)
+✔ Admin access denied, cross-origin writes denied, provider routes fail closed (43.5687ms)
+✔ Admin edits optimistic version; invalid stock/price and stale edits rejected (12.9918ms)
+✔ Order receipt requires matching secret token (8.285ms)
+✔ Backup restoration preserves orders and stock (16.9436ms)
+✔ Guest cancellation is token-scoped and releases reservation once (13.707ms)
+✔ Oversized/malformed payloads and unauthenticated sandbox events rejected (8.723ms)
+✔ Expired pending order cannot become paid (11.4528ms)
+✔ Admin creates and hides a product, with audit history (13.6343ms)
+✔ Protected snapshot export restores consistent order and inventory without double reservation (85.4563ms)
+✔ Guest sandbox payment: token required, paid/failed only from pending, stock released on failure (18.194ms)
+✔ Seeded variant prices are whole riyals (6.4157ms)
+ℹ tests 21
 ℹ suites 0
-ℹ pass 19
+ℹ pass 21
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 199.244844
+ℹ duration_ms 524.6835

@@ -25,6 +25,14 @@ Runtime keys are configured using Sites environment settings, outside source:
 
 Use `.dev.vars` for local values; it is ignored. `.env.example` contains names and dummy values only. No provider keys are currently consumed. Adding key names alone does not implement a provider.
 
+## Local database
+
+`pnpm db:setup` (`scripts/setup-local-db.mjs`) applies pending `drizzle/` migrations to the same local D1 file `pnpm dev` uses (`.wrangler/state`). `pnpm db:reset` deletes local D1 data first. With `CATALOG_SEED=demo` the catalog seeds itself on the first request.
+
+## Guest sandbox payment
+
+`POST /api/orders/:id/sandbox-pay` with `{order_token, outcome: "paid"|"failed", event_id}` lets the customer finish the demo journey. It requires the order's receipt token, reuses the same idempotent `transition()` as the admin sandbox events (pending → paid / payment_failed only), releases stock on failure, and is recorded in the audit log as `guest_sandbox_checkout`. It never touches a payment provider. Remove or gate this route before connecting a real gateway.
+
 ## Local verification
 
 Install using the Sites dependency helper. Run:
