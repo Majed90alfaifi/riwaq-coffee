@@ -108,6 +108,19 @@ See [docs/RUNBOOK.md](docs/RUNBOOK.md) for full details.
 
 ---
 
+## ☁️ Public demo on Cloudflare (free plan)
+
+```bash
+node node_modules/wrangler/bin/wrangler.js login   # once, opens the browser
+node scripts/deploy-cloudflare.mjs                  # every release (pnpm deploy:cloudflare)
+```
+
+The script creates the D1 database `riwaq-coffee-db` on first run, applies migrations, builds and deploys to `https://riwaq-coffee.<your-subdomain>.workers.dev`. The catalog seeds itself on the first visit.
+
+The public build sets `PUBLIC_DEMO=1`: identity headers are stripped and **the admin panel is disabled**, because there is no trusted sign-in in front of a plain Worker. Use the local version for admin demos.
+
+---
+
 ## 🧪 Tests
 
 ```bash

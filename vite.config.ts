@@ -15,15 +15,19 @@ const { d1, r2 } = hostingConfig;
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 const managedLinux = readExecutionProfile() === "managed-linux";
 
+// Set by scripts/deploy-cloudflare.mjs for a public Cloudflare deployment.
+const publicD1Id = process.env.RIWAQ_D1_ID;
+
 const localBindingConfig = {
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
+  ...(publicD1Id ? { vars: { CATALOG_SEED: "demo", PUBLIC_DEMO: "1" } } : {}),
   d1_databases: d1
     ? [
         {
           binding: d1,
-          database_name: "site-creator-d1",
-          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+          database_name: publicD1Id ? "riwaq-coffee-db" : "site-creator-d1",
+          database_id: publicD1Id ?? SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
         },
       ]
     : [],
