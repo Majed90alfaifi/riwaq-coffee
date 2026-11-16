@@ -2,6 +2,10 @@
 
 A bilingual (Arabic / English) specialty-coffee storefront with a full admin panel, built on **Vinext (Next.js on Vite)**, **Cloudflare Workers** and **D1 (SQLite)**.
 
+### 🔗 Live demo: **[riwaq-coffee.mj99.workers.dev](https://riwaq-coffee.mj99.workers.dev)**
+
+Try the full journey: browse → add to bag → delivery details (use **تعبئة بيانات تجريبية**) → sandbox payment → confirmation. The admin panel is disabled on the public link; run locally to demo it.
+
 > ⚠️ **Demo / sandbox only.** Payments, shipping, invoicing and email are simulated. No real provider integrations are enabled — do not use this to take real orders.
 
 ---
@@ -115,7 +119,7 @@ node node_modules/wrangler/bin/wrangler.js login   # once, opens the browser
 node scripts/deploy-cloudflare.mjs                  # every release (pnpm deploy:cloudflare)
 ```
 
-The script creates the D1 database `riwaq-coffee-db` on first run, applies migrations, builds and deploys to `https://riwaq-coffee.<your-subdomain>.workers.dev`. The catalog seeds itself on the first visit.
+The script creates the D1 database `riwaq-coffee-db` on first run, applies migrations, builds and deploys to `https://riwaq-coffee.<your-subdomain>.workers.dev` (currently [riwaq-coffee.mj99.workers.dev](https://riwaq-coffee.mj99.workers.dev)). The catalog seeds itself on the first visit.
 
 The public build sets `PUBLIC_DEMO=1`: identity headers are stripped and **the admin panel is disabled**, because there is no trusted sign-in in front of a plain Worker. Use the local version for admin demos.
 
