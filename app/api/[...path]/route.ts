@@ -4,3 +4,4 @@ export const dynamic='force-dynamic';
 export const GET=(req:Request)=>handle(req,env);
 export const POST=(req:Request)=>handle(req,env);
 export const PATCH=(req:Request)=>handle(req,env);
+export const DELETE=(req:Request)=>handle(req,env);

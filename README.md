@@ -112,6 +112,26 @@ See [docs/RUNBOOK.md](docs/RUNBOOK.md) for full details.
 
 ---
 
+## 📱 QR menu service (منيو QR)
+
+A separate digital-menu product for cafés and restaurants, living alongside the store. It has its own tables, API, pages and per-venue branding, and does not touch the store's products or identity.
+
+| Page | URL (local) |
+|---|---|
+| Service overview + demo venues | http://localhost:5173/menu |
+| Public menu (what guests see after scanning) | http://localhost:5173/menu/bait-alhail |
+| Empty-menu example | http://localhost:5173/menu/sunbula |
+| Owner admin (sign-in required) | http://localhost:5173/menu-admin |
+
+- **Guests:** mobile-first menu, Arabic by default with English toggle, sticky section chips, Arabic-aware search, item details sheet, badges, "unavailable now", open/closed status (Saudi time), share link, empty/not-found/error states.
+- **Owners:** edit venue info, colour, hours and contacts; add, rename, delete and reorder sections; add, edit, move and delete items (name, description, price, image, badges); one-tap availability toggle; live phone preview; QR tab with copy, SVG/PNG download and printable table card; "restore demo data" for demo venues.
+- **Storage:** D1 tables `menu_venues`, `menu_categories`, `menu_items` (migration `drizzle/0001_qr_menu.sql`), with optimistic versions and audit-log entries. Included in the admin JSON backup.
+- **Security:** admin APIs reuse the store's server-side `admin()` guard (trusted identity headers + `ADMIN_EMAIL`), same-origin checks, body limits and rate limiting. Admin is disabled on the public Cloudflare build (`PUBLIC_DEMO=1`).
+- **QR:** generated in-browser by `public/menu/qr.js` (no dependency; verified by decoding). On localhost the code points to a local URL that other phones cannot open; the UI says so and lets you enter the public URL after deployment.
+- **Demo content:** both venues, their prices and texts are fictional; images are bundled illustrations, labelled as such.
+
+---
+
 ## ☁️ Public demo on Cloudflare (free plan)
 
 ```bash
@@ -128,12 +148,12 @@ The public build sets `PUBLIC_DEMO=1`: identity headers are stripped and **the a
 ## 🧪 Tests
 
 ```bash
-pnpm test        # node --test tests/commerce.test.mjs
+pnpm test        # node --test tests/commerce.test.mjs tests/menu.test.mjs
 pnpm typecheck   # tsc --noEmit
 pnpm lint
 ```
 
-Latest run: **21 / 21 passing** — see [docs/test-results.txt](docs/test-results.txt).
+Latest run: **32 / 32 passing** — see [docs/test-results.txt](docs/test-results.txt).
 
 Covers quote math, overselling prevention, idempotency, reservation expiry, stale-edit rejection, payload limits, unauthorized access, refunds, and backup/restore consistency.
 

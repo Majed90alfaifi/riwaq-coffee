@@ -15,7 +15,7 @@
     "db:setup": "node scripts/setup-local-db.mjs",
     "db:reset": "node scripts/setup-local-db.mjs --reset",
     "deploy:cloudflare": "node scripts/deploy-cloudflare.mjs",
-    "test": "node --test tests/commerce.test.mjs",
+    "test": "node --test tests/commerce.test.mjs tests/menu.test.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

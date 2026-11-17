@@ -33,6 +33,17 @@ Use `.dev.vars` for local values; it is ignored. `.env.example` contains names a
 
 `POST /api/orders/:id/sandbox-pay` with `{order_token, outcome: "paid"|"failed", event_id}` lets the customer finish the demo journey. It requires the order's receipt token, reuses the same idempotent `transition()` as the admin sandbox events (pending → paid / payment_failed only), releases stock on failure, and is recorded in the audit log as `guest_sandbox_checkout`. It never touches a payment provider. Remove or gate this route before connecting a real gateway.
 
+## QR menu service
+
+Separate from the store: `app/menu/route.ts` (overview), `app/menu/[slug]/route.ts` (public menu), `app/menu-admin/route.ts` (owner admin) serve shells from `lib/menu-shell.ts`; UI in `public/menu/` (`menu.js`, `admin.js`, `shared.js`, `qr.js`, CSS, illustrations); API in `server/menu.mjs` under `/api/menu/...`, dispatched from `server/api.mjs` after the shared origin and rate-limit checks.
+
+- Run `pnpm db:setup` after pulling: it applies `drizzle/0001_qr_menu.sql`. With `CATALOG_SEED=demo` two fictional venues are seeded once (`bait-alhail`, `sunbula`); deleting demo content does not bring it back. Admin → معلومات النشاط → «استعادة النموذج الأصلي» restores a demo venue.
+- Public: `GET /api/menu/venues`, `GET /api/menu/venues/:slug` (no versions exposed).
+- Admin (server-checked `admin()`): `/api/menu/admin/venues[/:slug]` GET/PATCH, `…/:slug/categories` POST, `…/:slug/items` POST, `…/:slug/reorder` POST, `…/:slug/reset-demo` POST, `/api/menu/admin/categories/:id` and `/api/menu/admin/items/:id` PATCH/DELETE. Every write sends `version`; a stale one returns `409 VERSION_CONFLICT`. A section with items cannot be deleted (`409 CATEGORY_NOT_EMPTY`). All writes add `menu_*` audit rows.
+- Prices are integer halalas. Images are bundled `/menu/img/*.svg` illustrations or `https://` URLs; there is no file upload (no R2 binding).
+- QR codes encode `<current origin>/menu/<slug>`, or a public base URL the owner types (kept in that browser only). A localhost code only opens on the same machine.
+- Before real customers: real owner accounts per venue (today any `ADMIN_EMAIL` admin can edit every venue), image upload storage, a stable public domain, and a privacy/terms review.
+
 ## Local verification
 
 Install using the Sites dependency helper. Run:
