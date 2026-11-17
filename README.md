@@ -3,6 +3,7 @@
 A bilingual (Arabic / English) specialty-coffee storefront with a full admin panel, built on **Vinext (Next.js on Vite)**, **Cloudflare Workers** and **D1 (SQLite)**.
 
 ### 🔗 Live demo: **[riwaq-coffee.mj99.workers.dev](https://riwaq-coffee.mj99.workers.dev)**
+### 📱 Live QR menu: **[riwaq-coffee.mj99.workers.dev/menu/bait-alhail](https://riwaq-coffee.mj99.workers.dev/menu/bait-alhail)**
 
 Try the full journey: browse → add to bag → delivery details (use **تعبئة بيانات تجريبية**) → sandbox payment → confirmation. The admin panel is disabled on the public link; run locally to demo it.
 
@@ -116,12 +117,12 @@ See [docs/RUNBOOK.md](docs/RUNBOOK.md) for full details.
 
 A separate digital-menu product for cafés and restaurants, living alongside the store. It has its own tables, API, pages and per-venue branding, and does not touch the store's products or identity.
 
-| Page | URL (local) |
-|---|---|
-| Service overview + demo venues | http://localhost:5173/menu |
-| Public menu (what guests see after scanning) | http://localhost:5173/menu/bait-alhail |
-| Empty-menu example | http://localhost:5173/menu/sunbula |
-| Owner admin (sign-in required) | http://localhost:5173/menu-admin |
+| Page | Live | Local |
+|---|---|---|
+| Service overview + demo venues | [/menu](https://riwaq-coffee.mj99.workers.dev/menu) | http://localhost:5173/menu |
+| Public menu (what guests see after scanning) | [/menu/bait-alhail](https://riwaq-coffee.mj99.workers.dev/menu/bait-alhail) | http://localhost:5173/menu/bait-alhail |
+| Empty-menu example | [/menu/sunbula](https://riwaq-coffee.mj99.workers.dev/menu/sunbula) | http://localhost:5173/menu/sunbula |
+| Owner admin (sign-in required) | disabled on the public link | http://localhost:5173/menu-admin |
 
 - **Guests:** mobile-first menu, Arabic by default with English toggle, sticky section chips, Arabic-aware search, item details sheet, badges, "unavailable now", open/closed status (Saudi time), share link, empty/not-found/error states.
 - **Owners:** edit venue info, colour, hours and contacts; add, rename, delete and reorder sections; add, edit, move and delete items (name, description, price, image, badges); one-tap availability toggle; live phone preview; QR tab with copy, SVG/PNG download and printable table card; "restore demo data" for demo venues.
